@@ -1,6 +1,9 @@
 * Работа с UML
 
-В этой лабораторной работе будем использовать [[https://plantuml.com/][Plant UML]]. Инструкцию по установке вы можете найти [[https://plantuml.com/faq-install][здесь]].
+В этой лабораторной работе будем использовать [[https://plantuml.com/][Plant UML]]. Инструкцию по установке вы можете найти [[https://plantuml.com/faq-install][здесь]]. Если вы используете Mac OS, то установить ~plantuml~ можно с помощью ~homebrew~:
+#+begin_src
+brew install plantuml
+#+end_src
 
 * Внешний вид базы данных
 [[./db.png]]
