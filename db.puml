@@ -1,0 +1,75 @@
+@startuml
+object client {
+    id
+    first_name
+    last_name
+    phone_number
+}
+
+object payment_method {
+    id
+    card_number
+    cardowner
+    expiry_date
+    cvc
+}
+
+object payment_info {
+    client_id
+    payment_method_id
+    order_id
+}
+
+object item {
+    id
+    name
+    price
+}
+
+object group {
+    id
+    name
+}
+
+object item_group {
+    item_id
+    group_id
+}
+
+object order {
+    id
+    client_id
+    point_id
+}
+
+object order_item {
+    order_id
+    item_id
+}
+
+object point {
+    id
+    address
+}
+
+object point_item {
+    point_id
+    item_id
+}
+
+point::id --> point_item::point_id
+item::id --> point_item::item_id
+
+payment_method::id --> payment_info::payment_method_id
+client::id --> payment_info::client_id
+order::id --> payment_info::order_id
+
+order::id --> order_item::order_id
+item::id --> order_item::item_id
+
+item::id --> item_group::item_id
+group::id --> item_group::group_id
+
+order::point_id --> point::id
+
+@enduml
