@@ -1,60 +1,89 @@
 @startuml
-object client {
-    id
-    first_name
-    last_name
-    phone_number
+left to right direction
+skinparam roundcorner 5
+skinparam shadowing false
+
+skinparam class {
+    BackgroundColor white
+    ArrowColor #2688d4
+    BorderColor #2688d4
 }
 
-object payment_method {
-    id
-    card_number
-    cardowner
-    expiry_date
-    cvc
+!define primary_key(x) <b><color:#b8861b><&key></color> x</b>
+!define foreign_key(x) <color:#aaaaaa><&key></color> x
+!define column(x) <color:#efefef><&media-record></color> x
+!define table(x) entity x << (T, white) >>
+
+table(client) {
+    primary_key(id): UUID
+    --
+    column(first_name): VARCHAR
+    column(last_name): VARCHAR
+    column(phone_number): VARCHAR
 }
 
-object payment_info {
-    client_id
-    payment_method_id
-    order_id
+table(payment_method) {
+    primary_key(id): UUID
+    --
+    column(card_number): INTEGER
+    column(card_owner): VARCHAR
+    column(expiry_date): DATETIME
+    column(cvc): INTEGER
 }
 
-object item {
-    id
-    name
-    price
+table(payment_info) {
+    primary_key(id): UUID
+    --
+    foreign_key(client_id): UUID
+    foreign_key(payment_method_id): UUID
+    foreign_key(order_id): UUID
 }
 
-object group {
-    id
-    name
+table(item) {
+    primary_key(id): UUID
+    --
+    column(name): VARCHAR
+    column(price): DECIMAL
 }
 
-object item_group {
-    item_id
-    group_id
+table(group) {
+    primary_key(id): UUID
+    --
+    column(name): VARCHAR
 }
 
-object order {
-    id
-    client_id
-    point_id
+table(item_group) {
+    primary_key(id): UUID
+    --
+    foreign_key(item_id): UUID
+    foreign_key(group_id): UUID
 }
 
-object order_item {
-    order_id
-    item_id
+table(order) {
+    primary_key(id): UUID
+    --
+    foreign_key(client_id): UUID
+    foreign_key(point_id): UUID
 }
 
-object point {
-    id
-    address
+table(order_item) {
+    primary_key(id): UUID
+    --
+    foreign_key(order_id): UUID
+    foreign_key(item_id): UUID
 }
 
-object point_item {
-    point_id
-    item_id
+table(point) {
+    primary_key(id): UUID
+    --
+    column(address): ???
+}
+
+table(point_item) {
+    primary_key(id): UUID
+    --
+    foreign_key(point_id): UUID
+    foreign_key(item_id): UUID
 }
 
 point::id --> point_item::point_id
