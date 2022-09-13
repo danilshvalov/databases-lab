@@ -76,7 +76,7 @@ table(order_item) {
 table(point) {
     primary_key(id): UUID
     --
-    column(address): ???
+    foreign_key(address_id): UUID
 }
 
 table(point_item) {
@@ -84,6 +84,34 @@ table(point_item) {
     --
     foreign_key(point_id): UUID
     foreign_key(item_id): UUID
+}
+
+table(country) {
+    primary_key(id): UUID
+    --
+    column(name): VARCHAR
+}
+
+table(city) {
+    primary_key(id): UUID
+    --
+    column(name): VARCHAR
+    foreign_key(country_id): UUID
+}
+
+table(street) {
+    primary_key(id): UUID
+    --
+    column(name): VARCHAR
+    foreign_key(city_id): UUID
+}
+
+table(address) {
+    primary_key(id): UUID
+    --
+    foreign_key(street_id): UUID
+    column(house_number): VARCHAR
+    column(postcode): INTEGER
 }
 
 point::id --> point_item::point_id
@@ -100,5 +128,13 @@ item::id --> item_group::item_id
 group::id --> item_group::group_id
 
 order::point_id --> point::id
+
+point::address_id --> address:id
+
+city::country_id --> country::id
+
+street::city_id --> city::id
+
+address::street_id --> street::id
 
 @enduml
