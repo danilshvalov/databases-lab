@@ -63,7 +63,7 @@ table(order) {
     primary_key(id): UUID
     --
     foreign_key(client_id): UUID
-    foreign_key(point_id): UUID
+    foreign_key(sale_point_id): UUID
 }
 
 table(order_item) {
@@ -73,16 +73,16 @@ table(order_item) {
     foreign_key(item_id): UUID
 }
 
-table(point) {
+table(sale_point) {
     primary_key(id): UUID
     --
     foreign_key(address_id): UUID
 }
 
-table(point_item) {
+table(sale_point_item) {
     primary_key(id): UUID
     --
-    foreign_key(point_id): UUID
+    foreign_key(sale_point_id): UUID
     foreign_key(item_id): UUID
 }
 
@@ -114,8 +114,23 @@ table(address) {
     column(postcode): INTEGER
 }
 
-point::id --> point_item::point_id
-item::id --> point_item::item_id
+table(employee) {
+    primary_key(id): uuid
+    --
+    column(first_name): VARCHAR
+    column(last_name): VARCHAR
+    foreign_key(position_id): UUID
+    foreign_key(sale_point_id): UUID
+}
+
+table(employee_position) {
+    primary_key(id): uuid
+    --
+    column(name): VARCHAR
+}
+
+sale_point::id --> sale_point_item::sale_point_id
+item::id --> sale_point_item::item_id
 
 payment_method::id --> payment_info::payment_method_id
 client::id --> payment_info::client_id
@@ -127,14 +142,17 @@ item::id --> order_item::item_id
 item::id --> item_group::item_id
 group::id --> item_group::group_id
 
-order::point_id --> point::id
+order::sale_point_id --> sale_point::id
 
-point::address_id --> address:id
+sale_point::address_id --> address:id
 
 city::country_id --> country::id
 
 street::city_id --> city::id
 
 address::street_id --> street::id
+
+employee::position_id --> employee_position::id
+employee::sale_point --> sale_point::id
 
 @enduml
