@@ -115,7 +115,7 @@ table(address) {
 }
 
 table(employee) {
-    primary_key(id): uuid
+    primary_key(id): UUID
     --
     column(first_name): VARCHAR
     column(last_name): VARCHAR
@@ -124,9 +124,19 @@ table(employee) {
 }
 
 table(employee_position) {
-    primary_key(id): uuid
+    primary_key(id): UUID
     --
     column(name): VARCHAR
+}
+
+table(schedule) {
+    primary_key(id): UUID
+    --
+    column(from_time): TIME
+    column(to_time): TIME
+    column(is_break_time): BOOLEAN
+    column(weekday): ENUM
+    foreign_key(sale_point_id): UUID
 }
 
 sale_point::id --> sale_point_item::sale_point_id
@@ -154,5 +164,7 @@ address::street_id --> street::id
 
 employee::position_id --> employee_position::id
 employee::sale_point --> sale_point::id
+
+schedule::sale_point_id --> sale_point::id
 
 @enduml
