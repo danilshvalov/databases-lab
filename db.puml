@@ -46,17 +46,17 @@ table(item) {
     column(price): DECIMAL
 }
 
-table(group) {
+table(tag) {
     primary_key(id): UUID
     --
     column(name): VARCHAR
 }
 
-table(item_group) {
+table(item_tag) {
     primary_key(id): UUID
     --
     foreign_key(item_id): UUID
-    foreign_key(group_id): UUID
+    foreign_key(tag_id): UUID
 }
 
 table(order) {
@@ -150,8 +150,8 @@ client::id --> payment_method::client_id
 order::id --> order_item::order_id
 item::id --> order_item::item_id
 
-item::id --> item_group::item_id
-group::id --> item_group::group_id
+item::id --> item_tag::item_id
+tag::id --> item_tag::tag_id
 
 order::sale_point_id --> sale_point::id
 
