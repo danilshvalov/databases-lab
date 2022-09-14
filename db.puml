@@ -29,12 +29,12 @@ table(payment_method) {
     column(card_owner): VARCHAR
     column(expiry_date): DATETIME
     column(cvc): INTEGER
+    foreign_key(client_id): UUID
 }
 
 table(payment_info) {
     primary_key(id): UUID
     --
-    foreign_key(client_id): UUID
     foreign_key(payment_method_id): UUID
     foreign_key(order_id): UUID
 }
@@ -143,8 +143,9 @@ sale_point::id --> sale_point_item::sale_point_id
 item::id --> sale_point_item::item_id
 
 payment_method::id --> payment_info::payment_method_id
-client::id --> payment_info::client_id
 order::id --> payment_info::order_id
+
+client::id --> payment_method::client_id
 
 order::id --> order_item::order_id
 item::id --> order_item::item_id
