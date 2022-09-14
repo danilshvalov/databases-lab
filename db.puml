@@ -116,9 +116,9 @@ table(street) {
 table(address) {
     primary_key(id): UUID
     --
-    foreign_key(street_id): UUID
     column(house_number): VARCHAR
     column(postcode): INTEGER
+    foreign_key(street_id): UUID
 }
 
 table(employee) {
