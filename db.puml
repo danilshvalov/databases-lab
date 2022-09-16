@@ -14,12 +14,19 @@ skinparam class {
 !define column(x) <color:#efefef><&media-record></color> x
 !define table(x) entity x << (T, white) >>
 
-table(client) {
+table(person) {
     primary_key(id): UUID
     --
     column(first_name): VARCHAR
     column(last_name): VARCHAR
     column(phone_number): VARCHAR
+}
+
+table(client) {
+    primary_key(id): UUID
+    --
+    column(discount): DECIMAL
+    foreign_key(person_id): UUID
 }
 
 table(payment_method) {
@@ -44,6 +51,7 @@ table(item) {
     --
     column(name): VARCHAR
     column(price): DECIMAL
+    column(discount): DECIMAL
 }
 
 table(tag) {
@@ -64,6 +72,7 @@ table(order) {
     --
     foreign_key(client_id): UUID
     foreign_key(sale_point_id): UUID
+    foreign_key(address_id): UUID
 }
 
 table(order_item) {
@@ -82,6 +91,7 @@ table(sale_point) {
 table(sale_point_item) {
     primary_key(id): UUID
     --
+    column(count): INTEGER
     foreign_key(sale_point_id): UUID
     foreign_key(item_id): UUID
 }
@@ -124,8 +134,8 @@ table(address) {
 table(employee) {
     primary_key(id): UUID
     --
-    column(first_name): VARCHAR
-    column(last_name): VARCHAR
+    column(salary_coef): DECIMAL
+    foreign_key(person_id): UUID
     foreign_key(position_id): UUID
     foreign_key(sale_point_id): UUID
 }
@@ -134,6 +144,7 @@ table(employee_position) {
     primary_key(id): UUID
     --
     column(name): VARCHAR
+    column(salary): DECIMAL
 }
 
 table(schedule) {
@@ -152,6 +163,7 @@ payment_method::id --> payment_info::payment_method_id
 order::id --> payment_info::order_id
 
 client::id --> payment_method::client_id
+client::person_id --> person::id
 
 order::id --> order_item::order_id
 item::id --> order_item::item_id
@@ -160,6 +172,7 @@ item::id --> item_tag::item_id
 tag::id --> item_tag::tag_id
 
 order::sale_point_id --> sale_point::id
+order::address_id --> address::id
 
 sale_point::address_id --> address:id
 
@@ -169,10 +182,12 @@ street::city_id --> city::id
 
 address::street_id --> street::id
 
+employee::person_id --> person::id
 employee::position_id --> employee_position::id
 employee::sale_point --> sale_point::id
 
 sale_point_schedule::schedule_id --> schedule::id
 sale_point_schedule::sale_point_id --> sale_point::id
+
 
 @enduml
