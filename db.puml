@@ -23,16 +23,6 @@ table(address) {
     column(postcode): VARCHAR(16)
 }
 
-table(meeting_point) {
-    primary_key(id): UUID
-    --
-    column(name): VARCHAR(255)
-    column(meeting_time): TIME
-    foreign_key(address_id): UUID
-}
-
-pickup_point::address_id --> address::id
-
 table(subscription) {
     primary_key(id): UUID
     --
