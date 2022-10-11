@@ -42,6 +42,7 @@ table(payment_method) {
 table(payment_info) {
     primary_key(id): UUID
     --
+	column(datetime): DATETIME
     foreign_key(payment_method_id): UUID
     foreign_key(order_id): UUID
 }
@@ -70,6 +71,7 @@ table(item_tag) {
 table(order) {
     primary_key(id): UUID
     --
+	column(datetime): DATETIME
     foreign_key(client_id): UUID
     foreign_key(sale_point_id): UUID
     foreign_key(address_id): UUID
