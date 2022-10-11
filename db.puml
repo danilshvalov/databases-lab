@@ -14,52 +14,66 @@ skinparam class {
 !define column(x) <color:#efefef><&media-record></color> x
 !define table(x) entity x << (T, white) >>
 
-table(person) {
+table(address) {
     primary_key(id): UUID
     --
-    column(first_name): VARCHAR
-    column(last_name): VARCHAR
-    column(phone_number): VARCHAR
+    column(country): VARCHAR(127)
+    column(city): VARCHAR(127)
+    column(street): VARCHAR(255)
+    column(postcode): VARCHAR(16)
 }
 
-table(client) {
+table(meeting_point) {
     primary_key(id): UUID
     --
-    column(discount): DECIMAL
-    foreign_key(person_id): UUID
+    column(name): VARCHAR(255)
+    column(meeting_time): TIME
+    foreign_key(address_id): UUID
 }
 
-table(payment_method) {
+pickup_point::address_id --> address::id
+
+table(subscription) {
     primary_key(id): UUID
     --
-    column(card_number): INTEGER
-    column(card_owner): VARCHAR
-    column(expiry_date): DATETIME
-    column(cvc): INTEGER
-    foreign_key(client_id): UUID
+    column(name): VARCHAR(255)
+    column(price): DECIMAL
+    column(period): ENUM
 }
 
-table(payment_info) {
+table(user) {
     primary_key(id): UUID
     --
-	column(datetime): DATETIME
-    foreign_key(payment_method_id): UUID
-    foreign_key(order_id): UUID
+    ' user info
+    column(email): VARCHAR(255)
+    column(first_name): VARCHAR(127)
+    column(last_name): VARCHAR(127)
+    column(phone_number): VARCHAR(16)
+    column(password): BINARY(64)
+    ' subscription info
+    column(subscription_expiration_date): DATE
+    foreign_key(subscription_id): UUID
+}
+
+user::subscription_id --> subscription::id
+
+table(tag) {
+    primary_key(id): UUID
+    --
+    column(name): VARCHAR(32)
 }
 
 table(item) {
     primary_key(id): UUID
     --
-    column(name): VARCHAR
+    column(name): VARCHAR(32)
+    column(description): TEXT
     column(price): DECIMAL
-    column(discount): DECIMAL
+    column(state): ENUM
+    foreign_key(user_id): UUID
 }
 
-table(tag) {
-    primary_key(id): UUID
-    --
-    column(name): VARCHAR
-}
+item::user_id --> user::id
 
 table(item_tag) {
     primary_key(id): UUID
@@ -68,128 +82,26 @@ table(item_tag) {
     foreign_key(tag_id): UUID
 }
 
-table(order) {
-    primary_key(id): UUID
-    --
-	column(datetime): DATETIME
-    foreign_key(client_id): UUID
-    foreign_key(sale_point_id): UUID
-    foreign_key(address_id): UUID
-}
+item_tag::item_id --> item::id
+item_tag::tag_id --> tag::id
 
-table(order_item) {
+table(item_image) {
     primary_key(id): UUID
     --
-    foreign_key(order_id): UUID
+    column(content): BLOB
     foreign_key(item_id): UUID
 }
 
-table(sale_point) {
-    primary_key(id): UUID
-    --
-    foreign_key(address_id): UUID
-}
+item_image::item_id --> item::id
 
-table(sale_point_item) {
+table(favorite_item) {
     primary_key(id): UUID
     --
-    column(count): INTEGER
-    foreign_key(sale_point_id): UUID
     foreign_key(item_id): UUID
+    foreign_key(user_id): UUID
 }
 
-table(sale_point_schedule) {
-    primary_key(id): UUID
-    --
-    foreign_key(schedule_id): UUID
-    foreign_key(sale_point_id): UUID
-}
-
-table(country) {
-    primary_key(id): UUID
-    --
-    column(name): VARCHAR
-}
-
-table(city) {
-    primary_key(id): UUID
-    --
-    column(name): VARCHAR
-    foreign_key(country_id): UUID
-}
-
-table(street) {
-    primary_key(id): UUID
-    --
-    column(name): VARCHAR
-    foreign_key(city_id): UUID
-}
-
-table(address) {
-    primary_key(id): UUID
-    --
-    column(house_number): VARCHAR
-    column(postcode): INTEGER
-    foreign_key(street_id): UUID
-}
-
-table(employee) {
-    primary_key(id): UUID
-    --
-    column(salary_coef): DECIMAL
-    foreign_key(person_id): UUID
-    foreign_key(position_id): UUID
-    foreign_key(sale_point_id): UUID
-}
-
-table(employee_position) {
-    primary_key(id): UUID
-    --
-    column(name): VARCHAR
-    column(salary): DECIMAL
-}
-
-table(schedule) {
-    primary_key(id): UUID
-    --
-    column(from_time): TIME
-    column(to_time): TIME
-    column(is_break_time): BOOLEAN
-    column(weekday): ENUM
-}
-
-sale_point::id --> sale_point_item::sale_point_id
-item::id --> sale_point_item::item_id
-
-payment_method::id --> payment_info::payment_method_id
-order::id --> payment_info::order_id
-
-client::id --> payment_method::client_id
-client::person_id --> person::id
-
-order::id --> order_item::order_id
-item::id --> order_item::item_id
-
-item::id --> item_tag::item_id
-tag::id --> item_tag::tag_id
-
-order::sale_point_id --> sale_point::id
-order::address_id --> address::id
-
-sale_point::address_id --> address:id
-
-city::country_id --> country::id
-
-street::city_id --> city::id
-
-address::street_id --> street::id
-
-employee::person_id --> person::id
-employee::position_id --> employee_position::id
-employee::sale_point --> sale_point::id
-
-sale_point_schedule::schedule_id --> schedule::id
-sale_point_schedule::sale_point_id --> sale_point::id
-
+favorite_item::item_id --> item::id
+favorite_item::user_id --> user::id
 
 @enduml
