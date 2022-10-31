@@ -43,6 +43,8 @@ table(user) {
     column(password_hash): BINARY(64)
     ' subscription info
     column(subscription_expiration_date): DATE
+    column(created_at): DATETIME
+    column(updated_at): DATETIME
     foreign_key(subscription_id): UUID
 }
 
@@ -61,8 +63,12 @@ table(item) {
     column(description): TEXT
     column(price): DECIMAL
     column(state): ENUM
+    column(created_at): DATETIME
+    column(updated_at): DATETIME
     foreign_key(user_id): UUID
 }
+
+' TODO: item keywords?
 
 item::user_id --> user::id
 
