@@ -28,6 +28,7 @@ table(subscription) {
     --
     column(name): VARCHAR(255)
     column(price): DECIMAL
+    column(type): VARCHAR(64)
     column(period): ENUM
 }
 
