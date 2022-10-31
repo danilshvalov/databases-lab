@@ -53,6 +53,26 @@ table(user) {
 
 user::subscription_id --> subscription::id
 
+table(item) {
+    primary_key(id): UUID
+    --
+    column(name): VARCHAR(32)
+    column(description): TEXT
+    column(price): DECIMAL
+    column(state): ENUM
+    column(user_email): VARCHAR(127)
+    column(user_phone_number): VARCHAR(16)
+    column(like_amount): INTEGER
+    column(view_amount): INTEGER
+    column(created_at): DATETIME
+    column(updated_at): DATETIME
+    foreign_key(user_id): UUID
+    foreign_key(address_id): UUID
+}
+
+' TODO: item keywords?
+' TODO: item color?
+
 table(user_feedback) {
     primary_key(id): UUID
     --
@@ -73,26 +93,6 @@ table(tag) {
     --
     column(name): VARCHAR(32)
 }
-
-table(item) {
-    primary_key(id): UUID
-    --
-    column(name): VARCHAR(32)
-    column(description): TEXT
-    column(price): DECIMAL
-    column(state): ENUM
-    column(user_email): VARCHAR(127)
-    column(user_phone_number): VARCHAR(16)
-    column(like_amount): INTEGER
-    column(view_amount): INTEGER
-    column(created_at): DATETIME
-    column(updated_at): DATETIME
-    foreign_key(user_id): UUID
-    foreign_key(address_id): UUID
-}
-
-' TODO: item keywords?
-' TODO: item color?
 
 item::user_id --> user::id
 item::address_id --> address::id
