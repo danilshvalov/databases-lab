@@ -40,7 +40,7 @@ table(user) {
     column(first_name): VARCHAR(127)
     column(last_name): VARCHAR(127)
     column(phone_number): VARCHAR(16)
-    column(password): BINARY(64)
+    column(password_hash): BINARY(64)
     ' subscription info
     column(subscription_expiration_date): DATE
     foreign_key(subscription_id): UUID
