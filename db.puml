@@ -39,16 +39,34 @@ table(user) {
     column(email): VARCHAR(255)
     column(first_name): VARCHAR(127)
     column(last_name): VARCHAR(127)
+    column(email): VARCHAR(127)
     column(phone_number): VARCHAR(16)
     column(password_hash): BINARY(64)
     ' subscription info
     column(subscription_expiration_date): DATE
+    column(feedback_amount): INTEGER
+    column(average_rating): DECIMAL
+    column(sold_item_amount): INTEGER
     column(created_at): DATETIME
-    column(updated_at): DATETIME
     foreign_key(subscription_id): UUID
 }
 
 user::subscription_id --> subscription::id
+
+table(user_feedback) {
+    primary_key(id): UUID
+    --
+    column(content): TEXT
+    column(rating): DECIMAL
+    column(created_at): DATETIME
+    foreign_key(author_id): UUID
+    foreign_key(seller_id): UUID
+    foreign_key(item_id): UUID
+}
+
+user_feedback::author_id --> user::id
+user_feedback::seller_id --> user::id
+user_feedback::item_id --> item::id
 
 table(tag) {
     primary_key(id): UUID
@@ -63,14 +81,21 @@ table(item) {
     column(description): TEXT
     column(price): DECIMAL
     column(state): ENUM
+    column(user_email): VARCHAR(127)
+    column(user_phone_number): VARCHAR(16)
+    column(like_amount): INTEGER
+    column(view_amount): INTEGER
     column(created_at): DATETIME
     column(updated_at): DATETIME
     foreign_key(user_id): UUID
+    foreign_key(address_id): UUID
 }
 
 ' TODO: item keywords?
+' TODO: item color?
 
 item::user_id --> user::id
+item::address_id --> address::id
 
 table(item_tag) {
     primary_key(id): UUID
