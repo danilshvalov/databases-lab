@@ -1,0 +1,29 @@
+@startuml
+
+scale 3
+skinparam activity {
+    BackgroundColor white
+    ArrowColor #2688d4
+    BorderColor #2688d4
+}
+
+start
+:Создание товара;
+if (Пользователь вошел в аккаунт?) then (Да)
+    if (У пользователя есть подписка?) then (Да)
+        repeat
+        :Заполнение данных о товаре;
+        :Модерация товара;
+        repeat while (Модерация пройдена?) is (Нет) not (Да)
+        :Публикация товара;
+    else (Нет)
+        :Переход на страницу выбора подписки;
+        end
+    endif
+else (Нет)
+    :Переход на страницу входа;
+    end
+endif
+end
+
+@enduml

@@ -1,0 +1,20 @@
+@startuml
+
+scale 3
+skinparam activity {
+    BackgroundColor white
+    ArrowColor #2688d4
+    BorderColor #2688d4
+}
+
+start
+:Добавление товара в избранное;
+if (Пользователь вошел в аккаунт?) then (Да)
+    :Товар добавляется в избранное;
+else (Нет)
+    :Переход на страницу входа;
+    end
+endif
+end
+
+@enduml

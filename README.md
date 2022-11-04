@@ -8,4 +8,4 @@ brew install plantuml
 
 # Внешний вид базы данных
 
-![db.png](./db.png)
+![Изображение базы данных](./images/db.png)

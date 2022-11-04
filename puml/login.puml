@@ -1,0 +1,29 @@
+@startuml
+
+scale 3
+skinparam activity {
+    BackgroundColor white
+    ArrowColor #2688d4
+    BorderColor #2688d4
+}
+
+start
+:Вход в аккаунт;
+if (Пользователь зарегистрирован?) then (Да)
+else (Нет)
+    :Переход на страницу регистрации;
+    repeat
+    :Ввод пользовательских данных;
+    repeat while (Данные валидны?) is (Нет) not (Да)
+endif
+:Переход на страницу входа;
+repeat
+:Авторизация;
+repeat while (Данные валидны?) is (Нет) not (Да)
+repeat
+:Подтверждение почты;
+repeat while (Пользователь подтвержден?) is (Нет) not (Да)
+:Переход на стартовую страницу;
+end
+
+@enduml
