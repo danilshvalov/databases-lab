@@ -147,8 +147,8 @@ table(chat_message) {
     foreign_key(user_id): UUID
 }
 
-chat_line::chat_id --> chat::id
-chat_line::user_id --> user::id
+chat_message::chat_id --> chat::id
+chat_message::user_id --> user::id
 
 table(chat_attachment) {
     primary_key(id): UUID
