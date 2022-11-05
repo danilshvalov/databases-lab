@@ -129,12 +129,12 @@ favorite_item::user_id --> user::id
 table(chat) {
     primary_key(id): UUID
     --
-    foreign_key(order_id): UUID
+    foreign_key(item_id): UUID
     foreign_key(customer_id): UUID
     foreign_key(seller_id): UUID
 }
 
-chat::order_id --> order::id
+chat::item_id --> item::id
 chat::customer_id --> user::id
 chat::seller_id --> user::id
 
