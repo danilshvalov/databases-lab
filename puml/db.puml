@@ -126,4 +126,29 @@ table(favorite_item) {
 favorite_item::item_id --> item::id
 favorite_item::user_id --> user::id
 
+table(chat) {
+    primary_key(id): UUID
+    --
+    foreign_key(order_id): UUID
+    foreign_key(customer_id): UUID
+    foreign_key(seller_id): UUID
+}
+
+table(chat_line) {
+    primary_key(id): UUID
+    --
+    column(content): TEXT
+    column(created_at): DATETIME
+    foreign_key(chat_id): UUID
+    foreign_key(user_id): UUID
+}
+
+table(chat_attachment) {
+    primary_key(id): UUID
+    --
+    column(content): BLOB
+    column(extension): VARCHAR(32)
+    foreign_key(chat_id): UUID
+}
+
 @enduml
