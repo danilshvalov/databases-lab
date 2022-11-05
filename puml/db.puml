@@ -138,7 +138,7 @@ chat::item_id --> item::id
 chat::customer_id --> user::id
 chat::seller_id --> user::id
 
-table(chat_line) {
+table(chat_message) {
     primary_key(id): UUID
     --
     column(content): TEXT
@@ -157,9 +157,9 @@ table(chat_attachment) {
     column(content): BLOB
     column(extension): VARCHAR(32)
     column(created_at): DATETIME
-    foreign_key(chat_id): UUID
+    foreign_key(chat_message_id): UUID
 }
 
-chat_attachment::chat_id --> chat::id
+chat_attachment::chat_message_id --> chat_message::id
 
 @enduml
