@@ -146,8 +146,10 @@ table(chat_line) {
 table(chat_attachment) {
     primary_key(id): UUID
     --
+    column(filename): VARCHAR(255)
     column(content): BLOB
     column(extension): VARCHAR(32)
+    column(created_at): DATETIME
     foreign_key(chat_id): UUID
 }
 
