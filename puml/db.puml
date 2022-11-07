@@ -36,23 +36,31 @@ table(subscription) {
 table(user) {
     primary_key(id): UUID
     --
-    ' user info
     column(email): VARCHAR(255)
     column(username): VARCHAR(32)
     column(first_name): VARCHAR(127)
     column(last_name): VARCHAR(127)
     column(phone_number): VARCHAR(16)
     column(password_hash): CHAR(64)
-    ' subscription info
-    column(subscription_expiration_date): DATE
     column(feedback_amount): INTEGER
     column(average_rating): DECIMAL
     column(sold_item_amount): INTEGER
     column(created_at): DATETIME
-    foreign_key(subscription_id): UUID
 }
 
 user::subscription_id --> subscription::id
+
+table(user_subscription) {
+    primary_key(id): UUID
+    --
+    column(purchased_at): DATETIME
+    column(expires_at): DATETIME
+    foreign_key(user_id): UUID
+    foreign_key(subscription_id): UUID
+}
+
+user_subscription::user_id --> user::id
+user_subscription::subscription_id --> subscription::id
 
 table(item) {
     primary_key(id): UUID
