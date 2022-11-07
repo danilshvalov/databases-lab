@@ -75,9 +75,12 @@ table(item) {
     column(view_amount): INTEGER
     column(created_at): DATETIME
     column(updated_at): DATETIME
-    foreign_key(user_id): UUID
+    foreign_key(seller_id): UUID
     foreign_key(address_id): UUID
 }
+
+item::seller_id --> user::id
+item::address_id --> address::id
 
 ' TODO: item keywords?
 ' TODO: item color?
@@ -102,9 +105,6 @@ table(tag) {
     --
     column(name): VARCHAR(32)
 }
-
-item::user_id --> user::id
-item::address_id --> address::id
 
 table(item_tag) {
     primary_key(id): UUID
