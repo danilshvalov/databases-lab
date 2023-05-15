@@ -71,7 +71,7 @@ table(item) {
     column(state): ENUM
     column(user_email): VARCHAR(127)
     column(user_phone_number): VARCHAR(16)
-    column(like_amount): INTEGER
+    column(favourite_amount): INTEGER
     column(view_amount): INTEGER
     column(created_at): DATETIME
     column(updated_at): DATETIME
@@ -128,15 +128,15 @@ table(item_image) {
 
 item_image::item_id --> item::id
 
-table(favorite_item) {
+table(favourite_item) {
     primary_key(id): UUID
     --
     foreign_key(item_id): UUID
     foreign_key(user_id): UUID
 }
 
-favorite_item::item_id --> item::id
-favorite_item::user_id --> user::id
+favourite_item::item_id --> item::id
+favourite_item::user_id --> user::id
 
 table(chat) {
     primary_key(id): UUID
